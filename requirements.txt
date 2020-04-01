@@ -1,0 +1,8 @@
+numpy
+matplotlib==2.0.2
+py_midi
+genism==3.6
+pretty_midi
+tensorflow-gpu==1.14.0
+sklearn
+pandas
