@@ -1,22 +1,36 @@
 $(document).ready(() => {
+    let songs = [{}]; // this is where each lyric will be stored as an object
+    let state = {songID: 0, lyricCount: 0};
+    // all objects with same songID belong to the same song
 
     $(".left").on("click", function() { 
         let word = $(".left").attr("id");
         console.log(word);
         let lyric = "I have a pet " + word;
         $(".lyric").text(lyric);
-        pushLyric(lyric);
+        state = pushLyric(lyric, songs, state);
+        // console.log(songs);
+        // console.log(state);
     });
     $(".right").on("click", function() { 
         let word = $(".right").attr("id");
         console.log(word);
         let lyric = "I have a pet " + word;
         $(".lyric").text(lyric);
-        pushLyric(lyric);
+        state = pushLyric(lyric, songs, state);
+        // console.log(songs);
+        // console.log(state);
     });
 });
 
-let pushLyric = (lyric) => {
-    // will add a way to put lyric into external JSON file!
+let pushLyric = (lyric, songs, state) => {
+    // adds a lyric to the songs object! 
+    console.log("Pushing lyric");
+    songs[state.lyricCount] = {
+        id: state.songID,
+        lyric: lyric
+    };
+    state.lyricCount++;
+    return state;
 };
 
