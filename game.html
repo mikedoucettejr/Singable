@@ -1,25 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>  
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" type="text/css" href="style.css">
-        
-        <title>Singable</title>
-    </head>
-    <body>
-        <div>
-            <p class="lyric">I have a pet _____</p>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="style.css">
+
+    <title>Singable</title>
+</head>
+
+<body>
+    <div>
+        <button id="speak">Speak</button>
+        <p class="lyric">I have a pet _____</p>
+    </div>
+    <div class="options">
+        <div class="pic">
+            <button class="left" id="dog"><img src="./assets/images/dog.jpg" alt="dog"></button>
         </div>
-        <div class="options">
-            <div class="pic">
-                <button class="left" id="dog"><img src="./assets/images/dog.jpg" alt="dog"></button>
-            </div>
-            <div class="pic">
-                <button class="right" id="rabbit"><img src="./assets/images/rabbit.png" alt="rabbit"></button>
-            </div>
+        <div class="pic">
+            <button class="right" id="rabbit"><img src="./assets/images/rabbit.png" alt="rabbit"></button>
         </div>
-        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-        <script src="engine.js"></script>
-    </body>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="engine.js"></script>
+
+
+</body>
+
 </html>
