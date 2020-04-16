@@ -10,23 +10,39 @@ $(document).ready(() => {
     // **TODO**: space bar also clicks the button you last clicked if it's still selected 
     document.body.onkeyup = function (e) {
         if (e.keyCode == 32) {
-            // have to edit lyric so it reads out 'blank' rather than 'underscore' x5
-            let currentLyric = $(".lyric").text().replace(/_____/, 'blank');
+            // have to edit lyric so it reads out 'blank' rather than 'underscore' x5, and doesn't read punctuation
+            let currentLyric = $(".readAloud").text().replace(/_____/, 'blank').replace(/[!:]/g, "");
             let utterThis = new SpeechSynthesisUtterance(currentLyric);
             window.speechSynthesis.speak(utterThis);
         }
     }
 
     $("#next").on("click", function () {
-        let lyric = $(".lyric").text();
-        pushLyric(lyric, song);
         lyricNum++;
-        if (lyricNum == allLyrics.length) { // you've completed the game!
-            $('#root').html(`<p class="lyric">Great Job!</p>`);
-            console.log(song);
-        } else { // move to next page of lyrics and options
+        if (lyricNum > allLyrics.length) { // They've clicked "Play Again" on the score page
+            lyricNum = 0;
+            song = { lyrics: "" } // new song
             renderNextPage(allLyrics, lyricNum, options);
-            console.log(song);
+            $("#next").html(`Next`);
+        } else { // still a "Next" button, and player is still playing
+            let lyric = $(".lyric").text();
+            pushLyric(lyric, song);
+            if (lyricNum == allLyrics.length) { // you've completed the game!
+                // **TODO**: make HTTP request with completed lyrics (`song`)
+                 // generate random score
+                $('#root').html(`<div>
+                <p class="lyric readAloud">Great Work!</p>
+                <p class="lyric readAloud">Your score is:</p>
+                <p class="score readAloud">${Math.floor(Math.random() * 15000)}</p>
+                </div>`);
+                console.log(song);
+                // Change button to say "Play Again"
+                $("#next").html(`Play Again`); 
+                // **TODO**: add a "Start Over" button which would choose new set of lyrics?
+            } else { // move to next page of lyrics and options
+                renderNextPage(allLyrics, lyricNum, options);
+                console.log(song);
+            }
         }
     });
 });
@@ -34,6 +50,7 @@ $(document).ready(() => {
 let pushLyric = (lyric, song) => {
     // adds a lyric to the songs object! 
     console.log("Pushing lyric");
+    // does it need to be lowercase for it to be found in the dictionary @michael??
     song.lyrics += lyric + " ";
 };
 
@@ -57,7 +74,7 @@ let setupOptionClickHandlers = (allLyrics, lyricNum) => {
 let renderNextPage = (allLyrics, lyricNum, options) => {
     const $root = $('#root');
     let html = `<div>
-   <p class="lyric">${allLyrics[lyricNum]}_____</p>
+   <p class="lyric readAloud">${allLyrics[lyricNum]}_____</p>
     </div>
     <div class="options">
             <div class="pic">

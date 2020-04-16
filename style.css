@@ -28,7 +28,7 @@ img {
     bottom: 0;
     width: 100%;
 }
-#next {
+#next, #playagain {
     background-color: #4CAF50; /* Green */
     border: none;
     color: white;
@@ -37,4 +37,13 @@ img {
     text-decoration: none;
     display: inline-block;
     font-size: 18px;
+}
+
+.score {
+    text-align: center;
+    font-size: 90px;
+    background-color: rgb(255, 224, 51);
+    width: 28%;
+    margin: auto;
+    border-style: dashed;
 }
