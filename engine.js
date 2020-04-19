@@ -29,15 +29,7 @@ $(document).ready(() => {
             pushLyric(lyric, song);
             if (lyricNum == allLyrics.length) { // you've completed the game!
                 // **TODO**: make HTTP request with completed lyrics (`song`)
-                 // generate random score
-                $('#root').html(`<div>
-                <p class="lyric readAloud">Great Work!</p>
-                <p class="lyric readAloud">Your score is:</p>
-                <p class="score readAloud">${Math.floor(Math.random() * 15000)}</p>
-                </div>`);
-                console.log(song);
-                // Change button to say "Play Again"
-                $("#next").html(`Play Again`); 
+                renderLastPage();
                 // **TODO**: add a "Start Over" button which would choose new set of lyrics?
             } else { // move to next page of lyrics and options
                 renderNextPage(allLyrics, lyricNum, options);
@@ -78,14 +70,109 @@ let renderNextPage = (allLyrics, lyricNum, options) => {
     </div>
     <div class="options">
             <div class="pic">
-                <button class="left" id="${options[lyricNum].left}">
+                <button class="left button" id="${options[lyricNum].left}">
                 <img src="./assets/images/${options[lyricNum].left}.jpg" alt="${options[lyricNum].left}"></button>
             </div>
             <div class="pic">
-                <button class="right" id="${options[lyricNum].right}">
+                <button class="right button" id="${options[lyricNum].right}">
                 <img src="./assets/images/${options[lyricNum].right}.jpg" alt="${options[lyricNum].right}"></button>
             </div>
     </div>`;
     $root.html(html);
     setupOptionClickHandlers(allLyrics, lyricNum);
 };
+
+let renderLastPage = () => {
+    $('#root').html(`<div>
+        <p class="lyric readAloud">Great Work!</p>
+        <p class="lyric readAloud">Your score is: <span class="score readAloud">${Math.floor(Math.random() * 15000)} </span></p>
+        <p class="instruction readAloud">Press play to hear your song:</p>
+        <section class="player">
+            <audio controls>
+            <source src="./assets/audio/piano2.wav" type="audio/wav">
+            </audio>
+            <div class="controls">
+            <button class="playpause">Play</button>
+            <button class="stop">Stop</button>
+            <button class="rwd">Rewind</button>
+            <button class="fwd">Skip</button>
+            <div class="time">00:00</div>
+            </div>
+        </section>
+        </div>`);
+    
+    buildAccessibleAudio();
+
+    // Change button to say "Play Again"
+    $("#next").html(`Play Again`);
+};
+
+let buildAccessibleAudio =  function () {
+    // grab references to buttons and video
+
+    const playPauseBtn = document.querySelector('.playpause');
+    const stopBtn = document.querySelector('.stop');
+    const rwdBtn = document.querySelector('.rwd');
+    const fwdBtn = document.querySelector('.fwd');
+    const timeLabel = document.querySelector('.time');
+
+    const player = document.querySelector('audio');
+
+    // Remove the native controls from all players
+
+    player.removeAttribute('controls');
+
+    // Define constructor for player controls object
+
+    playPauseBtn.onclick = function () {
+        if (player.paused) {
+            player.play();
+            console.log("PLAYING!");
+            playPauseBtn.textContent = 'Pause';
+        } else {
+            player.pause();
+            playPauseBtn.textContent = 'Play';
+        }
+    };
+
+    stopBtn.onclick = function () {
+        player.pause();
+        player.currentTime = 0;
+        playPauseBtn.textContent = 'Play';
+    };
+
+    rwdBtn.onclick = function () {
+        player.currentTime -= 3;
+    };
+
+    fwdBtn.onclick = function () {
+        player.currentTime += 3;
+        if (player.currentTime >= player.duration || player.paused) {
+            player.pause();
+            player.currentTime = 0;
+            playPauseBtn.textContent = 'Play';
+        }
+    };
+
+    player.ontimeupdate = function () {
+        let minutes = Math.floor(player.currentTime / 60);
+        let seconds = Math.floor(player.currentTime - minutes * 60);
+        let minuteValue;
+        let secondValue;
+
+        if (minutes < 10) {
+            minuteValue = "0" + minutes;
+        } else {
+            minuteValue = minutes;
+        }
+
+        if (seconds < 10) {
+            secondValue = "0" + seconds;
+        } else {
+            secondValue = seconds;
+        }
+
+        mediaTime = minuteValue + ":" + secondValue;
+        timeLabel.textContent = mediaTime;
+    };
+}
