@@ -1,9 +1,8 @@
 numpy
-matplotlib==2.0.2
 py_midi
 gensim==3.6
 pretty_midi
-tensorflow==1.1.0
+tensorflow==2
 sklearn
 pandas
 scipy

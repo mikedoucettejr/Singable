@@ -1,10 +1,10 @@
 #### Code taken from https://github.com/yy1lab/Lyrics-Conditioned-Neural-Melody-Generation 
 
 import numpy as np
-import matplotlib.pyplot as plt #version 2.0.2
 import tensorflow as tf #1.9
+import tensorflow.compat.v1 as tf
+tf.disable_v2_behavior()
 import lyric_midi_utils
-from matplotlib.patches import Polygon
 import os
 from gensim.models import Word2Vec #Genism 3.6
 from sklearn.neighbors import KernelDensity
@@ -14,24 +14,26 @@ import pretty_midi
 
 #Create dictionary
 #https://www.gutenberg.org/ebooks/3204
-syl_str_dict = open("assets/data/mhyph.txt", "r").read()
+syl_str_dict = open("assets/data/mhyph.txt", "rb").read().decode(errors='backslashreplace')
 syl_list_dict = []
 word_list_dict = []
 for word in syl_str_dict.split('\n'):
     word_syl_list = []
     word_concat = ''
-    for syl in word.split('\xa5'):
+    for syl in word.split('\\xa5'):
         word_syl_list.append(syl.strip('\r').lower())
         word_concat = word_concat + str(syl.strip('\r').lower())
     syl_list_dict.append(word_syl_list)
     word_list_dict.append(word_concat)
 syllable_dict = dict(zip(word_list_dict, syl_list_dict))
+print('syllable_dict created')
 
 # takes LYRIC as STR (no punctuation)
 # outputs MIDI file
 def get_syl_lyric_list(lyrics):
     syl_lyr_list = []
     for word in lyrics.split(' '):
+        word = word.lower()
         try:
             syl_list =(syllable_dict[word])
         except KeyError:
@@ -123,3 +125,7 @@ def lyric_to_wav(lyrics):
         print('wav written to "out.wav" & audio numpy returned')
     
     return audio_data # returning numpy array of audio data (wav is written to 'out.wav')
+
+
+#audio_array = lyric_to_wav('One step ahead is a step too far away from you')
+#print('audio array complete')
