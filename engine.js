@@ -2,9 +2,10 @@ $(document).ready(() => {
     let lyricNum = 0;
     let allLyrics = ["I have a pet ", "It says ", "And when I play the ", "Together we make "];
     let options = [{ left: "dog", right: "rabbit" }, { left: "meow", right: "ribbit" }, { left: "piano", right: "toothbrush" }, { left: "music", right: "dinner" }];
+    let choices = []; // keep track of each choice made
     let song = { lyrics: "" }; // this is where each lyric will be stored as an object
 
-    renderNextPage(allLyrics, lyricNum, options); // generates HTML for specific lyric
+    renderNextPage(allLyrics, lyricNum, options, choices); // generates HTML for specific lyric
 
     // space bar reads current lyric
     // **TODO**: space bar also clicks the button you last clicked if it's still selected 
@@ -22,17 +23,17 @@ $(document).ready(() => {
         if (lyricNum > allLyrics.length) { // They've clicked "Play Again" on the score page
             lyricNum = 0;
             song = { lyrics: "" } // new song
-            renderNextPage(allLyrics, lyricNum, options);
+            renderNextPage(allLyrics, lyricNum, options, choices);
             $("#next").html(`Next`);
         } else { // still a "Next" button, and player is still playing
             let lyric = $(".lyric").text();
             pushLyric(lyric, song);
             if (lyricNum == allLyrics.length) { // you've completed the game!
                 // **TODO**: make HTTP request with completed lyrics (`song`)
-                renderLastPage();
+                renderLastPage(choices);
                 // **TODO**: add a "Start Over" button which would choose new set of lyrics?
             } else { // move to next page of lyrics and options
-                renderNextPage(allLyrics, lyricNum, options);
+                renderNextPage(allLyrics, lyricNum, options, choices);
                 console.log(song);
             }
         }
@@ -46,12 +47,13 @@ let pushLyric = (lyric, song) => {
     song.lyrics += lyric + " ";
 };
 
-let setupOptionClickHandlers = (allLyrics, lyricNum) => {
+let setupOptionClickHandlers = (allLyrics, lyricNum, choices) => {
     $(".left").on("click", function () {
         let word = $(".left").attr("id");
         window.speechSynthesis.speak(new SpeechSynthesisUtterance(word));
         console.log(word);
         let lyric = allLyrics[lyricNum] + word;
+        choices[lyricNum] = word;
         $(".lyric").text(lyric);
     });
     $(".right").on("click", function () {
@@ -59,11 +61,12 @@ let setupOptionClickHandlers = (allLyrics, lyricNum) => {
         window.speechSynthesis.speak(new SpeechSynthesisUtterance(word));
         console.log(word);
         let lyric = allLyrics[lyricNum] + word;
+        choices[lyricNum] = word;
         $(".lyric").text(lyric);
     });
 };
 
-let renderNextPage = (allLyrics, lyricNum, options) => {
+let renderNextPage = (allLyrics, lyricNum, options, choices) => {
     const $root = $('#root');
     let html = `<div>
    <p class="lyric readAloud">${allLyrics[lyricNum]}_____</p>
@@ -79,17 +82,27 @@ let renderNextPage = (allLyrics, lyricNum, options) => {
             </div>
     </div>`;
     $root.html(html);
-    setupOptionClickHandlers(allLyrics, lyricNum);
+    setupOptionClickHandlers(allLyrics, lyricNum, choices);
 };
 
-let renderLastPage = () => {
+let renderLastPage = (choices) => {
+    let fileName = "";
+    for (let i = 0; i < choices.length; i++) {
+        if (i < choices.length - 1) {
+            fileName += choices[i] + "_";
+        } else {
+            fileName += choices[i];
+        }
+    }
+    console.log(fileName);
+
     $('#root').html(`<div>
         <p class="lyric readAloud">Great Work!</p>
         <p class="lyric readAloud">Your score is: <span class="score readAloud">${Math.floor(Math.random() * 15000)} </span></p>
         <p class="instruction readAloud">Press play to hear your song:</p>
         <section class="player">
             <audio controls>
-            <source src="./assets/audio/piano2.wav" type="audio/wav">
+            <source src="./assets/audio/${fileName}.wav" type="audio/wav">
             </audio>
             <div class="controls">
             <button class="playpause">Play</button>
@@ -109,7 +122,6 @@ let renderLastPage = () => {
 
 let buildAccessibleAudio =  function () {
     // grab references to buttons and video
-
     const playPauseBtn = document.querySelector('.playpause');
     const stopBtn = document.querySelector('.stop');
     const rwdBtn = document.querySelector('.rwd');
@@ -119,11 +131,9 @@ let buildAccessibleAudio =  function () {
     const player = document.querySelector('audio');
 
     // Remove the native controls from all players
-
     player.removeAttribute('controls');
 
     // Define constructor for player controls object
-
     playPauseBtn.onclick = function () {
         if (player.paused) {
             player.play();
