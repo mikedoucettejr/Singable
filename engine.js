@@ -7,13 +7,23 @@ $(document).ready(() => {
 
     renderNextPage(allLyrics, lyricNum, options, choices); // generates HTML for specific lyric
 
-    // space bar reads current lyric
-    // **TODO**: space bar also clicks the button you last clicked if it's still selected 
+    // space bar reads current lyric, left arrow reads left option, right arrow reads right option
     document.body.onkeyup = function (e) {
-        if (e.keyCode == 32) {
+        if (e.keyCode == 32) { // space bar
             // have to edit lyric so it reads out 'blank' rather than 'underscore' x5, and doesn't read punctuation
+            e.preventDefault();
             let currentLyric = $(".readAloud").text().replace(/_____/, 'blank').replace(/[!:]/g, "");
             let utterThis = new SpeechSynthesisUtterance(currentLyric);
+            window.speechSynthesis.speak(utterThis);
+        }
+        if (e.keyCode == 37) { // left arrow reads left option
+            let leftOption = $(".left").attr("id");
+            let utterThis = new SpeechSynthesisUtterance(leftOption);
+            window.speechSynthesis.speak(utterThis);
+        }
+        if (e.keyCode == 39) { // right arrow reads right option
+            let rightOption = $(".right").attr("id");
+            let utterThis = new SpeechSynthesisUtterance(rightOption);
             window.speechSynthesis.speak(utterThis);
         }
     }
@@ -43,7 +53,6 @@ $(document).ready(() => {
 let pushLyric = (lyric, song) => {
     // adds a lyric to the songs object! 
     console.log("Pushing lyric");
-    // does it need to be lowercase for it to be found in the dictionary @michael??
     song.lyrics += lyric + " ";
 };
 
@@ -98,7 +107,7 @@ let renderLastPage = (choices) => {
 
     $('#root').html(`<div>
         <p class="lyric readAloud">Great Work!</p>
-        <p class="lyric readAloud">Your score is: <span class="score readAloud">${Math.floor(Math.random() * 15000)} </span></p>
+        <p class="lyric readAloud">Your score is: <button class="score">${Math.floor(Math.random() * 15000)} </button></p>
         <p class="instruction readAloud">Press play to hear your song:</p>
         <section class="player">
             <audio controls>
@@ -114,9 +123,15 @@ let renderLastPage = (choices) => {
         </section>
         </div>`);
     
+    $(".score").on("click", function () {
+        let score = $(".score").text();
+        let utterThis = new SpeechSynthesisUtterance(score);
+        window.speechSynthesis.speak(utterThis);
+    });
+
     buildAccessibleAudio();
 
-    // Change button to say "Play Again"
+    // Changes   button to say "Play Again"
     $("#next").html(`Play Again`);
 };
 
