@@ -77,8 +77,8 @@ let setupOptionClickHandlers = (allLyrics, lyricNum, choices) => {
 
 let renderNextPage = (allLyrics, lyricNum, options, choices) => {
     const $root = $('#root');
-    let html = `<div>
-   <p class="lyric readAloud">${allLyrics[lyricNum]}_____</p>
+    let html = `<div”>
+   <h1 class="lyric readAloud">${allLyrics[lyricNum]}_____<h1>
     </div>
     <div class="options">
             <div class="pic">
