@@ -6,3 +6,6 @@ tensorflow==2
 sklearn
 pandas
 scipy
+soundfile
+pydub
+gtts
