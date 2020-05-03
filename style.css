@@ -4,6 +4,19 @@ body {
 h1 {
     text-align: center;
 }
+.help {
+    position:absolute; 
+    top:0; 
+    left:0;
+    color:white;
+    background-color:#feb22a;
+    width:70px;
+    height:70px;
+    border-radius:100%;
+    font-size:40px;
+    text-align:center;
+    text-decoration:none;
+}
 .lyric {
     text-align: center;
     font-size: 70px;

@@ -1,27 +1,27 @@
 $(document).ready(() => {
     let lyricNum = 0;
     let allLyrics = ["I have a pet ", "It says ", "And when I play the ", "Together we make "];
-    let options = [{ left: "dog", right: "rabbit" }, { left: "meow", right: "ribbit" }, { left: "piano", right: "toothbrush" }, { left: "music", right: "dinner" }];
+    let options = generateRandomOptions();
     let choices = []; // keep track of each choice made
     let song = { lyrics: "" }; // this is where each lyric will be stored as an object
 
     renderNextPage(allLyrics, lyricNum, options, choices); // generates HTML for specific lyric
 
-    // space bar reads current lyric, left arrow reads left option, right arrow reads right option
+    // up arrow reads current lyric, left arrow reads left option, right arrow reads right option
     document.body.onkeyup = function (e) {
-        if (e.keyCode == 32) { // space bar
+        if (e.keyCode == 38) { // up arrow 
             // have to edit lyric so it reads out 'blank' rather than 'underscore' x5, and doesn't read punctuation
             e.preventDefault();
             let currentLyric = $(".readAloud").text().replace(/_____/, 'blank').replace(/[!:]/g, "");
             let utterThis = new SpeechSynthesisUtterance(currentLyric);
             window.speechSynthesis.speak(utterThis);
         }
-        if (e.keyCode == 37) { // left arrow reads left option
+        if (e.keyCode == 37) { // left arrow 
             let leftOption = $(".left").attr("id");
             let utterThis = new SpeechSynthesisUtterance(leftOption);
             window.speechSynthesis.speak(utterThis);
         }
-        if (e.keyCode == 39) { // right arrow reads right option
+        if (e.keyCode == 39) { // right arrow 
             let rightOption = $(".right").attr("id");
             let utterThis = new SpeechSynthesisUtterance(rightOption);
             window.speechSynthesis.speak(utterThis);
@@ -39,9 +39,8 @@ $(document).ready(() => {
             let lyric = $(".lyric").text();
             pushLyric(lyric, song);
             if (lyricNum == allLyrics.length) { // you've completed the game!
-                // **TODO**: make HTTP request with completed lyrics (`song`)
                 renderLastPage(choices);
-                // **TODO**: add a "Start Over" button which would choose new set of lyrics?
+                options = generateRandomOptions(); // randomize options for next game
             } else { // move to next page of lyrics and options
                 renderNextPage(allLyrics, lyricNum, options, choices);
                 console.log(song);
@@ -49,6 +48,28 @@ $(document).ready(() => {
         }
     });
 });
+
+let generateRandomOptions = () => {
+    let shuffledOptions = shuffle(["dog", "dinosaur", "donut", "ribbit", "piano", "toothbrush", "music", "dinner"]);
+    let optionObjects = [];
+    let j = 0;
+    for (let i = 0; i < 4; i++) {
+        optionObjects[i] = { left: shuffledOptions[j], right: shuffledOptions[j+1] };
+        j+=2;
+    }
+    return optionObjects;
+}
+
+let shuffle = (a) => {
+    let j, x, i;
+    for (i = a.length - 1; i > 0; i--) {
+        j = Math.floor(Math.random() * (i + 1));
+        x = a[i];
+        a[i] = a[j];
+        a[j] = x;
+    }
+    return a;
+};
 
 let pushLyric = (lyric, song) => {
     // adds a lyric to the songs object! 
@@ -75,9 +96,23 @@ let setupOptionClickHandlers = (allLyrics, lyricNum, choices) => {
     });
 };
 
+let setupHelpButton = (pageType) => {
+    $(".help").on("click", function () {
+        if (pageType == "regular") {
+            // show menu for up arrow reading lyric, left reading left, right reading right
+            console.log(pageType);
+            // replace .helpbox with text of menu
+        } else if (pageType == "last") {
+            // show menu for up button reading page
+            console.log(pageType);
+        }
+    });
+};
+
 let renderNextPage = (allLyrics, lyricNum, options, choices) => {
     const $root = $('#root');
     let html = ` <header><h1 class="lyric readAloud">${allLyrics[lyricNum]}_____</h1></header>
+    <div class="helpbox"><button class="help">?</button></div>
     <div class="options">
             <div class="pic">
                 <button class="left button" id="${options[lyricNum].left}">
@@ -90,6 +125,7 @@ let renderNextPage = (allLyrics, lyricNum, options, choices) => {
     </div>`;
     $root.html(html);
     setupOptionClickHandlers(allLyrics, lyricNum, choices);
+    setupHelpButton("regular");
 };
 
 let renderLastPage = (choices) => {
@@ -104,6 +140,7 @@ let renderLastPage = (choices) => {
     console.log(fileName);
 
     $('#root').html(`<div>
+        <div class="helpbox"><button class="help">?</button></div>
         <p class="lyric readAloud">Great Work!</p>
         <p class="lyric readAloud">Your score is: <button class="score">${Math.floor(Math.random() * 15000)} </button></p>
         <p class="instruction readAloud">Press play to hear your song:</p>
@@ -127,6 +164,7 @@ let renderLastPage = (choices) => {
         window.speechSynthesis.speak(utterThis);
     });
 
+    setupHelpButton("last");
     buildAccessibleAudio();
 
     // Changes   button to say "Play Again"
