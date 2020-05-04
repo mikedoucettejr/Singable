@@ -1,7 +1,7 @@
 ## Singable
 
 ### Description of the Project
-Singable is a songwriting game where the player chooses words to fill in the blanks of a series of lyrics.  After filling in the blanks of all the lyrics, they can hear their song played back to them!  The song is actually a series of MIDI notes that are generated based on the number of syllables in each word of the lyric.  A voice that reads the lyrics is layered on top of this song and the beats are aligned to create a track that sounds like music should, with notes and voice in sync.  
+Singable is a songwriting game where the player chooses words to fill in the blanks of a series of lyrics.  After filling in the blanks of all the lyrics, they can hear their song played back to them!  The song is actually a series of MIDI notes that are generated based on the number of syllables in each word of the lyric.  A voice that reads the lyrics is layered on top of this song and the beats are aligned to create a track that sounds kind of like music should. 
 
 A huge "Singable Score" is included at the end to provide encouragement to the player.  It doesn't really have any meaning, but hopefully it will make the player feel like they've done a great job! The player can then choose to play again, and this will create a new game where the options for each lyric are randomly selected, meaning that there are many unique songs that the player can create. 
 
@@ -27,6 +27,8 @@ The original plan was to set up a web server with a single endpoint. This endpoi
 A more general problem encountered was reconciling our normal group workflow with the global pandemic. We weren't able to help each other solve problems the same way as before, so we were much closer to our MVP than we were to achieving our stretch goals.  While this was frustrating and certainly slowed us down, we met over Zoom as much as possible and kept each other updated on our independent progress.
 
 ### Future Work
-Given that this project only reached the basics of our MVP, there is plenty of room for future work.  The UI could definitely use playful animations and additional features.  Ideally, a full version of the game would have a feature that allow users to enter their own lyrics and create their own songs to express their creativity. 
+Given that this project only reached the basics of our MVP, there is plenty of room for future work.  The UI could definitely use additional lyrics, picture options, and features.  Ideally, a full version of the game would have a feature that allow users to enter their own lyrics and create their own songs to express their creativity. 
+
+Another way to improve the game would be to tag the pictures based on parts of speech.  Right now, the order of the picture options is randomized so that the player can create exponentially more unique songs than they could if the order of the pictures was fixed.  However, this often forces the player to create lyrics that are nonsensical.  While we hope that most players find this humorous, some players may not.  Tagging the picture options with parts of speech or function would allow the game to select options that make sense with the lyric, which would create more meaningful songs.
 
 Automatically generating lyrics or crowdsourcing lyrics would be a great way to expand this game. Additionally, manual generation of audio files without a web server isn't ideal and a better compromise for future development would be to store generated lyrics and their associated audio files in a database and access this database rather than regenerate audio files for each lyric everytime the game is played.
