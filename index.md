@@ -11,7 +11,7 @@ Here's how it works:
 
 
 These keys will read something aloud. Press them whenever you need to hear something on the screen:
-* `Up arrow` reads current lyric, and reads the score on the last page!
+* `Up arrow` reads current lyric, and reads the content on the last page!
 * `Left arrow` tells you the left picture option.
 * `Right arrow` tells you the right picture option.
 
