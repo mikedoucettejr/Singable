@@ -122,6 +122,22 @@ let setupHelpButton = (pageType) => {
     });
 };
 
+// let setupBackgroundMusicButton = () => {
+//     let player = document.querySelector('audio');
+//     player.removeAttribute('controls');
+//     $("#bkgdmusic").on("click", function () {
+//         if (player.paused) {
+//             player.play();
+//             player.volume = 0.2;
+//         } else {
+//             player.pause();
+//         }
+//     });
+// }
+/*<div><button id="bkgdmusic"><i class="fas fa-music"></i></button><audio controls>
+    <source src="./assets/audio/background.mp3" type="audio/mp3">
+    </audio></div>*/
+
 let renderNextPage = (allLyrics, lyricNum, options, choices) => {
     const $root = $('#root');
     let html = ` <header><h1 class="lyric readAloud">${allLyrics[lyricNum]}_____</h1></header>
@@ -138,7 +154,8 @@ let renderNextPage = (allLyrics, lyricNum, options, choices) => {
     </div>`;
     $root.html(html);
     setupOptionClickHandlers(allLyrics, lyricNum, choices);
-    setupHelpButton("regular");
+    setupHelpButton("regular");  
+    setupBackgroundMusicButton();
 };
 
 let renderLastPage = (choices) => {

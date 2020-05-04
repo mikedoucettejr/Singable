@@ -6,10 +6,10 @@ h1 {
 }
 .help {
     position:absolute; 
-    top:0; 
-    left:0;
+    top:2%; 
+    left:1%;
     color:white;
-    background-color: rgb(214, 111, 26);
+    background-color: #A857A3;
     width:90px;
     height:90px;
     border-radius:100%;
@@ -19,11 +19,24 @@ h1 {
 }
 #helpbox {
     position:absolute; 
-    top:11%; 
+    top:13%; 
     left:0;
     font-size: 25px;
     font-weight: 600;
     line-height: 0.6em;
+}
+#bkgdmusic {
+    position:absolute; 
+    top:2%; 
+    right:1%;
+    color:white;
+    background-color: #da5050;
+    width:90px;
+    height:90px;
+    border-radius:100%;
+    font-size:55px;
+    text-align:center;
+    text-decoration:none;
 }
 
 .lyric {
@@ -62,8 +75,9 @@ img {
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    font-size: 24px;
+    font-size: 30px;
     width: 15%;
+    margin-bottom: 20px;
 }
 
 .score {
