@@ -141,7 +141,7 @@ let renderLastPage = (choices) => {
 
     $('#root').html(`<div>
         <div class="helpbox"><button class="help">?</button></div>
-        <p class="lyric readAloud">Great Work!</p>
+        <header><h1 class="lyric readAloud">Great Work!</h1></header>
         <p class="lyric readAloud">Your score is: <button class="score">${Math.floor(Math.random() * 15000)} </button></p>
         <p class="instruction readAloud">Press play to hear your song:</p>
         <section class="player">

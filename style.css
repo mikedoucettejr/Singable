@@ -9,7 +9,7 @@ h1 {
     top:0; 
     left:0;
     color:white;
-    background-color:#feb22a;
+    background-color: #d13025;
     width:70px;
     height:70px;
     border-radius:100%;
@@ -86,16 +86,16 @@ img {
 }
 
 .playpause {
-    background-color: #cb99c5;
+    background-color: #A857A3;
 }
 .stop {
-    background-color: #fa5a5a;
+    background-color: #da5050;
 }
 .rwd {
-    background-color:#ee9044 ;
+    background-color:rgb(214, 111, 26) ;
 }
 .fwd {
-    background-color: #7fb1bf;
+    background-color: #447988;
 }
 .time {
     font-size: 40px;
