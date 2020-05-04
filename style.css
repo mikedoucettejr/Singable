@@ -9,14 +9,23 @@ h1 {
     top:0; 
     left:0;
     color:white;
-    background-color: #d13025;
-    width:70px;
-    height:70px;
+    background-color: rgb(214, 111, 26);
+    width:90px;
+    height:90px;
     border-radius:100%;
-    font-size:40px;
+    font-size:55px;
     text-align:center;
     text-decoration:none;
 }
+#helpbox {
+    position:absolute; 
+    top:11%; 
+    left:0;
+    font-size: 25px;
+    font-weight: 600;
+    line-height: 0.6em;
+}
+
 .lyric {
     text-align: center;
     font-size: 70px;

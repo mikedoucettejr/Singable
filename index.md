@@ -16,4 +16,7 @@ These keys will read something aloud. Press them whenever you need to hear somet
 * `Right arrow` tells you the right picture option.
 
 
+If you ever need a reminder of these keys, press the `?` button in the top left corner.
+
+
 Give it a try: [Play the Game](./game.html)

@@ -98,13 +98,26 @@ let setupOptionClickHandlers = (allLyrics, lyricNum, choices) => {
 
 let setupHelpButton = (pageType) => {
     $(".help").on("click", function () {
+        let box = ``;
         if (pageType == "regular") {
             // show menu for up arrow reading lyric, left reading left, right reading right
-            console.log(pageType);
-            // replace .helpbox with text of menu
+            box = `<div>
+            <p>^ reads the lyric</p>
+            <p>< reads left option</p>
+            <p>> reads right option</p></div>`;
+            //$(".helpbox").html(box);
         } else if (pageType == "last") {
             // show menu for up button reading page
-            console.log(pageType);
+            box = `<div>
+            <p>^ reads the page</p></div>`;
+        }
+
+        $("#helpbox").toggleClass("clicked");
+
+        if ($("#helpbox").attr("class") == "clicked") {
+            $("#helpbox").html(box);
+        } else {
+            $("#helpbox").html(``);
         }
     });
 };
@@ -112,7 +125,7 @@ let setupHelpButton = (pageType) => {
 let renderNextPage = (allLyrics, lyricNum, options, choices) => {
     const $root = $('#root');
     let html = ` <header><h1 class="lyric readAloud">${allLyrics[lyricNum]}_____</h1></header>
-    <div class="helpbox"><button class="help">?</button></div>
+    <div><button class="help">?</button><div id="helpbox"></div></div>
     <div class="options">
             <div class="pic">
                 <button class="left button" id="${options[lyricNum].left}">
@@ -140,8 +153,8 @@ let renderLastPage = (choices) => {
     console.log(fileName);
 
     $('#root').html(`<div>
-        <div class="helpbox"><button class="help">?</button></div>
         <header><h1 class="lyric readAloud">Great Work!</h1></header>
+        <div><button class="help">?</button><div id="helpbox"></div></div>
         <p class="lyric readAloud">Your score is: <button class="score">${Math.floor(Math.random() * 15000)} </button></p>
         <p class="instruction readAloud">Press play to hear your song:</p>
         <section class="player">
