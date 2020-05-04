@@ -155,7 +155,6 @@ let renderNextPage = (allLyrics, lyricNum, options, choices) => {
     $root.html(html);
     setupOptionClickHandlers(allLyrics, lyricNum, choices);
     setupHelpButton("regular");  
-    setupBackgroundMusicButton();
 };
 
 let renderLastPage = (choices) => {
