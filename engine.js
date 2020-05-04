@@ -132,7 +132,7 @@ let renderLastPage = (choices) => {
     let fileName = "";
     for (let i = 0; i < choices.length; i++) {
         if (i < choices.length - 1) {
-            fileName += choices[i] + "_";
+            fileName += choices[i] + "-";
         } else {
             fileName += choices[i];
         }
